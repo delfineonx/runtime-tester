@@ -37,7 +37,7 @@
   // ----------------------------------------------------------------
 
   const _eval = eval;
-  const no_op = () => { };
+  const _no_op = () => { };
 
   // tick counter
   let _tick_step = 0.5;
@@ -63,12 +63,12 @@
   // runtime test counter
   let _iterations_count = 0;
 
-  let _func_A = no_op;
+  let _func_A = _no_op;
   let _runs_A = 0;
   let _last_sample_A = 0;
   const _samples_A = _RT.samples_A = [];
 
-  let _func_B = no_op;
+  let _func_B = _no_op;
   let _runs_B = 0;
   let _last_sample_B = 0;
   const _samples_B = _RT.samples_B = [];
@@ -112,8 +112,8 @@
 
     // ----------------------------------------------------------------
 
-    // TU = (1 / iterations) * 80000
-    const _TU_SCALE = 80000;
+    const _baseline_iteration_tu = 4;
+    let _tu_scale = 80000;
 
     let _index = 0;
 
@@ -254,6 +254,7 @@
         _iterations_end_index = distribution.end;
         _iterations_start_index = distribution.start;
         output.length = distribution.used;
+
         _task_phase_2 = 2;
       }
 
@@ -261,7 +262,7 @@
         const sorted_samples = distribution.sorted;
         // ascending
         while (_iterations_end_index >= _iterations_start_index) {
-          output[_index] = _TU_SCALE / (sorted_samples[_iterations_end_index] || 1);
+          output[_index] = _tu_scale / (sorted_samples[_iterations_end_index] || 1);
           _index++;
           _iterations_end_index--;
         }
@@ -275,7 +276,7 @@
 
     const _format_block_runtime = (name, total_runs, iterations_dist, runtime_dist) => (
       "[ " + name + " ] " + (total_runs ? ("(runs = " + total_runs + ")") : "") +
-      "\n  iterations mean = " + _round_to_4(iterations_dist.mean) + " | median = " + iterations_dist.median + " | used = " + iterations_dist.used +
+      "\n  iterations mean = " + _round_to_4(iterations_dist.mean) + " | median = " + _round_to_4(iterations_dist.median) + " | used = " + iterations_dist.used +
       "\n  mad = " + _round_to_4(iterations_dist.mad) + " | range = [" + _round_to_4(iterations_dist.lower) + " .. " + _round_to_4(iterations_dist.upper) + "]" +
       "\n  TU mean = " + _round_to_2(runtime_dist.mean) + " | median = " + _round_to_2(runtime_dist.median) + " | used = " + runtime_dist.used +
       "\n  mad = " + _round_to_2(runtime_dist.mad) + " | range = [" + _round_to_2(runtime_dist.lower) + " .. " + _round_to_2(runtime_dist.upper) + "]"
@@ -283,7 +284,7 @@
 
     const _format_block_iterations = (name, total_runs, iterations_dist) => (
       "[ " + name + " ] " + (total_runs ? ("(runs = " + total_runs + ")") : "") +
-      "\n  iterations mean = " + _round_to_4(iterations_dist.mean) + " | median = " + iterations_dist.median + " | used = " + iterations_dist.used +
+      "\n  iterations mean = " + _round_to_4(iterations_dist.mean) + " | median = " + _round_to_4(iterations_dist.median) + " | used = " + iterations_dist.used +
       "\n  mad = " + _round_to_4(iterations_dist.mad) + " | range = [" + _round_to_4(iterations_dist.lower) + " .. " + _round_to_4(iterations_dist.upper) + "]"
     );
 
@@ -297,6 +298,7 @@
       }
       if (_task_phase_1 === 2) {
         _iterations_B = _analyze_distribution(_samples_B, mad_multiplier, false);
+        _tu_scale = (_iterations_B.median || 1) * _baseline_iteration_tu;
         _runtime_samples_B = [];
         _task_phase_1 = 3;
       }
@@ -406,6 +408,7 @@
 
       if (_task_phase_1 === 6) {
         _effective_iterations_A = _analyze_distribution(_effective_iterations_samples_A, mad_multiplier, false);
+        _tu_scale = (_iterations_B.median || 1) * _baseline_iteration_tu;
         _task_phase_1 = 7;
       }
 
@@ -590,6 +593,7 @@
       }
       while (true) {
         _eval();
+        _no_op();
         _iterations_count++;
       }
     }
@@ -604,6 +608,7 @@
       }
       while (true) {
         _eval();
+        _no_op();
         _iterations_count++;
       }
     }
