@@ -1,0 +1,27 @@
+// Runtime Tester v2026-02-24-0001
+// Copyright (c) 2026 delfineonx, TenderGalaxy
+// SPDX-License-Identifier: Apache-2.0
+
+{
+const A={styles:["#FF775E","500","0.95rem","#FFC23D","500","0.95rem","#20DD69","500","0.95rem","#52B2FF","500","0.95rem"],set func_A(fn){L=fn},get func_A(){return L},set func_B(fn){P=fn},get func_B(){return P}},B=eval,C=1000000;
+let D=0.5,E=0,F=0,G=1,H=2,I=3,J=1,K=0,L=()=>{},M=0,N=0,O=A.samples_A=[],P=()=>{},Q=0,R=0,S=A.samples_B=[],T=[],U=0,V=1,W=1,X=[];
+const $=(A,B)=>{let C=X[B];C[0].str=A;api.broadcastMessage(C);C[0].str=""},$A=()=>{let A=U<T.length;while(A){try{if(!T[U]()){break}}catch(B){V=W=1;$("Runtime Tester: Analysis error - "+B.name+": "+B.message,0)}A=++U<T.length}if(!A){T.length=0;U=0}};
+{
+let a=4,b=80000,c,d,e,f,h,g,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w;
+const $a=(a,b,c)=>{let d=c-b+1,e=b+(d>>1);return d&1?a[e]:(a[e-1]+a[e])*0.5},$b=(a,b,n)=>{if(W===1){d=a.length;if(!d){W=1;return{mean:0,median:0,used:0,mad:0,lower:0,upper:0,sorted:a,start:0,end:-1}}if(!n){a.sort((a,b)=>a-b)}e=$a(a,0,d-1);f=[];c=0;W=2}if(W===2){let o;while(c<d){o=a[c]-e;f[c]=o<0?-o:o;c++}f.sort((a,b)=>a-b);h=$a(f,0,d-1)||1;g=e-b*h;i=e+b*h;f=null;j=0;k=d-1;W=3}if(W===3){while(j<=k&&a[j]<g){j++}while(k>=j&&a[k]>i){k--}l=k-j+1;if(l<=0){j=0;k=d-1;l=d}m=0;c=j;W=4}if(W===4){while(c<=k){m+=a[c];c++}let p=m/l,q=$a(a,j,k);W=1;return{mean:p,median:q,used:l,mad:h,lower:g,upper:i,sorted:a,start:j,end:k}}},$c=(a,d)=>{if(W===1){j=a.start;k=a.end;c=0;W=2}if(W===2){let e=a.sorted;while(k>=j){d[c]=b/(e[k]||1);c++;k--}W=1}},$d=(a,b,c)=>{let d=10**b,e=f=>Math.round(f*d)/d;return"\n  "+c+" mean = "+e(a.mean)+" | median = "+e(a.median)+" | used = "+a.used+"\n  mad = "+e(a.mad)+" | range = ["+e(a.lower)+" .. "+e(a.upper)+"]"},$e=A.format_light=a=>{return"[ consumed B ] (runs = "+a.runs_B+")"+$d(a.consumed_iterations_B,2,"iters")+"\n[ consumed A ] (runs = "+a.runs_A+")"+$d(a.consumed_iterations_A,4,"iters")+$d(a.consumed_runtime_A,4,"TU")},$f=A.format_heavy=a=>{return"[ consumed B ] (runs = "+a.runs_B+")"+$d(a.consumed_iterations_B,2,"iters")+"\n[ remainder A ] (runs = "+a.runs_A+")"+$d(a.remainder_iterations_A,2,"iters")+"\n[ consumed A ] (work = "+a.work_quota+")"+$d(a.consumed_iterations_A,2,"iters")+"\n[ equivalent A ]"+$d(a.equivalent_iterations_A,4,"iters")+$d(a.equivalent_runtime_A,4,"TU")},$g=(c,d,e)=>{if(V===1){r=$b(S,c,!1);b=(r.median||1)*a;V=2}if(V===2){t=$b(O,c,!1);o=[];V=3}if(V===3){$c(t,o);V=4}if(V===4){u=$b(o,c,!0);V=5}if(V===5){if(d==null){d={}}d.runs_B=Q;d.consumed_iterations_B=r;d.runs_A=M;d.consumed_iterations_A=t;d.consumed_runtime_A=u;if(e){$($e(d),3)}r=null;t=null;o=null;u=null;V=1;return!0}},$h=(d,e,f)=>{if(V===1){r=$b(S,d,!1);b=(r.median||1)*a;V=2}if(V===2){s=$b(O,d,!1);V=3}if(V===3){n=[];p=[];j=s.start;k=s.end;c=0;V=4}if(V===4){let g=s.sorted,h=r.median||1,i;while(j<=k){i=h-g[j];if(i>0){n[c]=i;p[c]=h*J/i;c++}j++}V=5}if(V===5){t=$b(n,d,!1);V=6}if(V===6){v=$b(p,d,!1);q=[];V=7}if(V===7){$c(v,q);V=8}if(V===8){w=$b(q,d,!0);V=9}if(V===9){if(e==null){e={}}e.runs_B=Q;e.consumed_iterations_B=r;e.runs_A=M;e.remainder_iterations_A=s;e.work_quota=J;e.consumed_iterations_A=t;e.equivalent_iterations_A=v;e.equivalent_runtime_A=w;if(f){$($f(e),3)}r=null;s=null;n=null;p=null;t=null;v=null;q=null;w=null;V=1;return!0}};
+A.analyze_light=(a=3,b=null,c=!0)=>{T[T.length]=()=>$g(a,b,c)};
+A.analyze_heavy=(a=3,b=null,c=!0)=>{T[T.length]=()=>$h(a,b,c)};
+A.init=()=>{let a=A.styles;for(let b=0;b<4;b++){X[b]=[{str:"",style:{color:a[b*3],fontWeight:a[b*3+1],fontSize:a[b*3+2]}}]}};
+A.start=(a=2,b=6,c=1)=>{G=1+(F=a|0);I=1+(H=b|0);J=c|0||1;D=-1;E=0;K=0;M=0;N=0;O.length=0;Q=0;R=0;S.length=0;T.length=0;U=0;V=1;W=1;f=null;n=null;o=null;p=null;q=null;r=null;s=null;t=null;u=null;v=null;w=null};
+A.pause=()=>{E=0.5};
+A.resume=()=>{if(D!==(D|0)){D=-1;E=0}};
+A.last_samples=(a=!1)=>{if(a){return[D,M,N,Q,R]}return"[ last samples ] (step = "+D+")"+"\n  runs_A = "+M+" | sample_A = "+N+"\n  runs_B = "+Q+" | sample_B = "+R};
+A.current_step=()=>{return D}
+}
+A.tick_light=()=>{B();if(D===F){D++;K=0;while(K<C){L();B();K++}}if(D===H){D++;K=0;while(K<C){P();B();K++}}if(D===G){O[M]=N=K;M++;D++;return}if(D===I){S[Q]=R=K;Q++;D=E;return}D++;if(T.length){$A()}};
+A.tick_heavy=()=>{B();if(D===F){D++;K=0;while(K<J){L();B();K++}K=0;while(K<C){P();B();K++}}if(D===H){D++;K=0;while(K<J){P();B();K++}while(K<C){P();B();K++}}if(D===G){O[M]=N=K;M++;D++;return}if(D===I){S[Q]=R=K;Q++;D=E;return}D++;if(T.length){$A()}};
+A.init();
+globalThis.RT=A;
+void 0
+}
+
